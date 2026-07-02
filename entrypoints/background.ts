@@ -175,13 +175,19 @@ export default defineBackground(() => {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (isOpenSidePanelMessage(message)) {
       const windowId = _sender.tab?.windowId ?? chrome.windows.WINDOW_ID_CURRENT;
+      console.log('[PageMind] OPEN_SIDE_PANEL received, opening side panel for windowId:', windowId);
       void chrome.sidePanel.open({ windowId }).then(
-        () => sendResponse(undefined),
-        (error: unknown) =>
+        () => {
+          console.log('[PageMind] sidePanel.open() succeeded');
+          sendResponse(undefined);
+        },
+        (error: unknown) => {
+          console.error('[PageMind] sidePanel.open() FAILED:', error);
           sendResponse({
             success: false,
             error: error instanceof Error ? error.message : String(error),
-          }),
+          });
+        },
       );
       return true;
     }

@@ -79,7 +79,16 @@ function FloatingButton() {
     // chrome.sidePanel.open() call succeeds. (Official Chrome sidepanel sample
     // pattern.) Do NOT await anything before this call.
     try {
-      chrome.runtime.sendMessage({ type: MessageType.OPEN_SIDE_PANEL });
+      console.log("[PageMind] Floating button clicked, sending OPEN_SIDE_PANEL");
+      chrome.runtime.sendMessage({ type: MessageType.OPEN_SIDE_PANEL }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error("[PageMind] OPEN_SIDE_PANEL error:", chrome.runtime.lastError.message);
+        } else if (response && typeof response === 'object' && 'error' in response) {
+          console.error("[PageMind] sidePanel.open failed:", (response as { error: string }).error);
+        } else {
+          console.log("[PageMind] OPEN_SIDE_PANEL acknowledged");
+        }
+      });
     } catch (err) {
       console.error("[PageMind] Failed to open side panel:", err);
     }

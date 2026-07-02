@@ -55,5 +55,14 @@ export default defineConfig({
         "128": "icon/icon128.png",
       },
     },
+    // Icons rendered inside the Shadow DOM floating button live in the page's
+    // DOM context. MV3 requires them to be declared web-accessible or Chrome
+    // blocks the load (broken image).
+    web_accessible_resources: [
+      {
+        resources: ["icon/*.png", "logo.png"],
+        matches: ["<all_urls>"],
+      },
+    ],
   },
 });
