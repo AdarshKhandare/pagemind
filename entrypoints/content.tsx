@@ -79,16 +79,31 @@ function FloatingButton() {
     // chrome.sidePanel.open() call succeeds. (Official Chrome sidepanel sample
     // pattern.) Do NOT await anything before this call.
     try {
-      console.log("[PageMind] Floating button clicked, sending OPEN_SIDE_PANEL");
-      chrome.runtime.sendMessage({ type: MessageType.OPEN_SIDE_PANEL }, (response) => {
-        if (chrome.runtime.lastError) {
-          console.error("[PageMind] OPEN_SIDE_PANEL error:", chrome.runtime.lastError.message);
-        } else if (response && typeof response === 'object' && 'error' in response) {
-          console.error("[PageMind] sidePanel.open failed:", (response as { error: string }).error);
-        } else {
-          console.log("[PageMind] OPEN_SIDE_PANEL acknowledged");
-        }
-      });
+      console.log(
+        "[PageMind] Floating button clicked, sending OPEN_SIDE_PANEL",
+      );
+      chrome.runtime.sendMessage(
+        { type: MessageType.OPEN_SIDE_PANEL },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            console.error(
+              "[PageMind] OPEN_SIDE_PANEL error:",
+              chrome.runtime.lastError.message,
+            );
+          } else if (
+            response &&
+            typeof response === "object" &&
+            "error" in response
+          ) {
+            console.error(
+              "[PageMind] sidePanel.open failed:",
+              (response as { error: string }).error,
+            );
+          } else {
+            console.log("[PageMind] OPEN_SIDE_PANEL acknowledged");
+          }
+        },
+      );
     } catch (err) {
       console.error("[PageMind] Failed to open side panel:", err);
     }
@@ -98,14 +113,14 @@ function FloatingButton() {
     <button
       type="button"
       onClick={handleClick}
-      className="fixed bottom-5 right-5 flex cursor-pointer items-center justify-center rounded-full bg-pm-primary text-white shadow-lg shadow-glow-primary ring-1 ring-white/15 transition-all duration-150 ease-out hover:scale-[1.08] hover:bg-pm-primary-hover active:scale-95 focus:outline-none focus-visible:pm-focus-ring"
+      className="fixed bottom-5 right-5 flex cursor-pointer items-center justify-center rounded-full  text-white shadow-lg ring-1 ring-white/15 transition-all duration-150 ease-out hover:scale-[1.08] hover:bg-pm-primary-hover active:scale-95 focus:outline-none focus-visible:pm-focus-ring"
       style={{ zIndex: 2147483647, width: "40px", height: "40px" }}
       aria-label="Open PageMind side panel"
       title="PageMind AI sidekick">
       <img
         src={chrome.runtime.getURL("icon/icon128.png")}
         alt="PageMind"
-        className="h-[20px] w-[20px] object-contain pointer-events-none"
+        className="h-7.5 w-7.5 object-contain pointer-events-none"
       />
     </button>
   );
