@@ -1,0 +1,509 @@
+@import "tailwindcss";
+
+/* ── PageMind "Midnight Signal" Design System ──
+ * Reused from the extension's assets/global.css so the landing page
+ * and the extension feel like the same product at different zoom levels.
+ * Landing-page-specific additions are marked with `--color-landing-*`.
+ */
+
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@theme {
+  /* ── Surfaces ── */
+  --color-pm-bg: #09090b;
+  --color-pm-surface: #111114;
+  --color-pm-surface-hover: #1a1a1e;
+  --color-pm-surface-raised: #16161a;
+
+  /* ── Borders (alpha-based for depth) ── */
+  --color-pm-border: rgba(255, 255, 255, 0.07);
+  --color-pm-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-pm-border-focus: rgba(91, 141, 239, 0.5);
+
+  /* ── Text ── */
+  --color-pm-text: #e4e4e7;
+  --color-pm-muted: #71717a;
+  --color-pm-muted-subtle: #52525b;
+
+  /* ── Primary (signal blue) ── */
+  --color-pm-primary: #5b8def;
+  --color-pm-primary-hover: #4a6fe0;
+  --color-pm-primary-active: #3d5fcf;
+  --color-pm-primary-subtle: rgba(91, 141, 239, 0.12);
+
+  /* ── Accent (soft violet — AI identity) ── */
+  --color-pm-accent: #a78bfa;
+  --color-pm-accent-hover: #9177f0;
+  --color-pm-accent-subtle: rgba(167, 139, 250, 0.1);
+
+  /* ── Semantic ── */
+  --color-pm-success: #34d399;
+  --color-pm-warning: #fbbf24;
+  --color-pm-danger: #f87171;
+
+  /* ── Typography ── */
+  --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
+
+  /* ── Radius scale ── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 9999px;
+
+  /* ── Shadow scale ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-glow-primary: 0 0 12px rgba(91, 141, 239, 0.25);
+  --shadow-glow-accent: 0 0 12px rgba(167, 139, 250, 0.2);
+  --shadow-card-hover: 0 8px 24px -4px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(91, 141, 239, 0.1);
+  --shadow-cta-glow: 0 0 24px rgba(91, 141, 239, 0.3), 0 0 48px rgba(91, 141, 239, 0.1);
+
+  /* ── Motion tokens ── */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+
+  /* ── Landing-page additions ── */
+  --color-landing-aurora-blue: rgba(91, 141, 239, 0.18);
+  --color-landing-aurora-violet: rgba(167, 139, 250, 0.14);
+  --color-landing-aurora-teal: rgba(52, 211, 153, 0.06);
+}
+
+/* ── Base ── */
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-pm-bg);
+  color: var(--color-pm-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--color-pm-primary-subtle);
+  color: var(--color-pm-text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── Skip link (a11y) ── */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 1000;
+  background: var(--color-pm-surface);
+  color: var(--color-pm-text);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-pm-border);
+  font-size: 0.875rem;
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-pm-bg), 0 0 0 4px var(--color-pm-primary);
+}
+
+/* ── Focus ring utility (matches extension) ── */
+.pm-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-pm-bg), 0 0 0 4px var(--color-pm-primary);
+}
+
+/* ── Section rhythm ── */
+.section-pad {
+  padding-top: clamp(48px, 8vw, 96px);
+  padding-bottom: clamp(48px, 8vw, 96px);
+}
+.section-pad-hero {
+  padding-top: clamp(48px, 10vw, 128px);
+  padding-bottom: clamp(48px, 8vw, 96px);
+}
+
+/* ── Container ── */
+.container-pm {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 4vw, 32px);
+  padding-right: clamp(16px, 4vw, 32px);
+}
+
+/* ── Gradient text (for "AI" word in hero) ── */
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--color-pm-primary) 0%,
+    var(--color-pm-accent) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Hero aurora background (CSS-driven, very slow) ── */
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--color-pm-bg);
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+.aurora-blob--blue {
+  width: 620px;
+  height: 620px;
+  background: var(--color-landing-aurora-blue);
+  top: -10%;
+  left: 20%;
+  animation: aurora-drift-a 24s ease-in-out infinite alternate;
+}
+.aurora-blob--violet {
+  width: 560px;
+  height: 560px;
+  background: var(--color-landing-aurora-violet);
+  top: 5%;
+  right: -10%;
+  animation: aurora-drift-b 28s ease-in-out infinite alternate;
+}
+.aurora-blob--teal {
+  width: 420px;
+  height: 420px;
+  background: var(--color-landing-aurora-teal);
+  bottom: -10%;
+  left: 35%;
+  animation: aurora-drift-c 30s ease-in-out infinite alternate;
+}
+.aurora-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 80%);
+}
+
+@keyframes aurora-drift-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(40px, 30px, 0) scale(1.05);
+  }
+}
+@keyframes aurora-drift-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-50px, 40px, 0) scale(1.08);
+  }
+}
+@keyframes aurora-drift-c {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(30px, -20px, 0) scale(1.04);
+  }
+}
+
+/* ── Final-CTA logo pulse ── */
+@keyframes pm-cta-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.cta-logo-pulse {
+  animation: pm-cta-pulse 3.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ── Mouse-follow glow on bento cards ── */
+.card-glow {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.card-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(91, 141, 239, 0.08),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+  pointer-events: none;
+  z-index: 0;
+}
+.card-glow:hover::before {
+  opacity: 1;
+}
+.card-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Nav background (darkens on scroll) ── */
+.nav-bg {
+  background-color: rgba(9, 9, 11, 0.6);
+}
+.nav-bg--scrolled {
+  background-color: rgba(9, 9, 11, 0.85);
+  border-bottom-color: var(--color-pm-border);
+}
+
+/* ── Section divider ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-pm-border) 20%,
+    var(--color-pm-border) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Mock side-panel content (for hero product mock) ── */
+.mock-bubble {
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  max-width: 88%;
+  word-wrap: break-word;
+}
+.mock-bubble--user {
+  background: var(--color-pm-user-bubble);
+  color: var(--color-pm-user-bubble-text, #fff);
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+.mock-bubble--assistant {
+  background: var(--color-pm-assistant-bubble);
+  color: var(--color-pm-assistant-bubble-text, #e4e4e7);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--color-pm-border);
+}
+.mock-bubble--assistant strong { color: var(--color-pm-text); }
+.mock-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 14px;
+  background: var(--color-pm-accent);
+  border-radius: 1px;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: pm-stream-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pm-stream-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ── Privacy flow diagram ── */
+.flow-line {
+  stroke-dasharray: 6 6;
+  animation: flow-dash 2.4s linear infinite;
+}
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* ── Reduced motion (matches extension) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Mobile menu scrim ── */
+.menu-scrim {
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Provider wordmark (monochrome treatment) ── */
+.provider-wordmark {
+  color: var(--color-pm-muted);
+  opacity: 0.7;
+  transition: color var(--duration-normal) var(--ease-out),
+              opacity var(--duration-normal) var(--ease-out);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.25rem;
+}
+.provider-wordmark:hover {
+  color: var(--color-pm-text);
+  opacity: 1;
+}
+
+/* ── Type scale (landing page, larger than extension) ── */
+.text-hero {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.text-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+.text-body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.text-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+.text-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              transform var(--duration-instant) var(--ease-out);
+  white-space: nowrap;
+  user-select: none;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn--primary {
+  background: var(--color-pm-primary);
+  color: #fff;
+  border: 1px solid var(--color-pm-primary);
+  box-shadow: var(--shadow-glow-primary);
+}
+.btn--primary:hover {
+  background: var(--color-pm-primary-hover);
+  border-color: var(--color-pm-primary-hover);
+  box-shadow: 0 0 20px rgba(91, 141, 239, 0.45);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--color-pm-text);
+  border: 1px solid var(--color-pm-border);
+}
+.btn--ghost:hover {
+  background: var(--color-pm-surface-hover);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.btn--large {
+  height: 48px;
+  padding: 0 22px;
+  font-size: 1rem;
+}
+.btn--sm {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 0.875rem;
+}
+.btn--icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}

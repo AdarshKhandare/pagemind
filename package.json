@@ -1,0 +1,38 @@
+{
+  "name": "pagemind",
+  "description": "AI sidekick for any webpage — summarize, explain, rewrite, translate, extract, and chat with the page's content.",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "@fontsource/plus-jakarta-sans": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "@mozilla/readability": "^0.6.0",
+    "lucide-react": "^0.507.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/chrome": "^0.2.0",
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
+    "@wxt-dev/module-react": "^1.1.5",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3",
+    "wxt": "^0.20.27"
+  }
+}

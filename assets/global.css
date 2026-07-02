@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+/* ── PageMind "Midnight Signal" Design System ──
+ * Aesthetic: precision instrument — dense, dark, single signal accent.
+ * Inspired by: Linear, Arc, Raycast, Vercel Geist (2026).
+ * All colors are semantic tokens. No raw hex in components.
+ */
+
+@theme {
+  /* ── Surfaces ── */
+  --color-pm-bg: #09090b;
+  --color-pm-surface: #111114;
+  --color-pm-surface-hover: #1a1a1e;
+  --color-pm-surface-raised: #16161a;
+
+  /* ── Borders (alpha-based for depth) ── */
+  --color-pm-border: rgba(255, 255, 255, 0.07);
+  --color-pm-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-pm-border-focus: rgba(91, 141, 239, 0.5);
+
+  /* ── Text ── */
+  --color-pm-text: #e4e4e7;
+  --color-pm-muted: #71717a;
+  --color-pm-muted-subtle: #52525b;
+
+  /* ── Primary (signal blue) ── */
+  --color-pm-primary: #5b8def;
+  --color-pm-primary-hover: #4a6fe0;
+  --color-pm-primary-active: #3d5fcf;
+  --color-pm-primary-subtle: rgba(91, 141, 239, 0.12);
+
+  /* ── Accent (soft violet — AI identity) ── */
+  --color-pm-accent: #a78bfa;
+  --color-pm-accent-hover: #9177f0;
+  --color-pm-accent-subtle: rgba(167, 139, 250, 0.1);
+
+  /* ── Chat bubbles ── */
+  --color-pm-user-bubble: #5b8def;
+  --color-pm-user-bubble-text: #ffffff;
+  --color-pm-assistant-bubble: #16161a;
+  --color-pm-assistant-bubble-text: #e4e4e7;
+
+  /* ── Semantic (danger / warning / success) ── */
+  --color-pm-danger: #f87171;
+  --color-pm-danger-bg: rgba(248, 113, 113, 0.1);
+  --color-pm-danger-border: rgba(248, 113, 113, 0.25);
+  --color-pm-warning: #fbbf24;
+  --color-pm-warning-bg: rgba(251, 191, 36, 0.1);
+  --color-pm-success: #34d399;
+  --color-pm-success-bg: rgba(52, 211, 153, 0.1);
+
+  /* ── Typography scale ── */
+  --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
+
+  /* ── Radius scale ── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 9999px;
+
+  /* ── Shadow scale (dark — subtle, borders do the work) ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-glow-primary: 0 0 12px rgba(91, 141, 239, 0.25);
+  --shadow-glow-accent: 0 0 12px rgba(167, 139, 250, 0.2);
+
+  /* ── Motion tokens ── */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+/* ── Global base styles ── */
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Streaming cursor animation ── */
+@keyframes pm-stream-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.pm-streaming-cursor {
+  animation: pm-stream-pulse 1.2s ease-in-out infinite;
+  color: var(--color-pm-accent);
+}
+
+/* ── View transition classes (chat ↔ settings ↔ onboarding) ── */
+.pm-view {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--duration-slow) var(--ease-out),
+              opacity var(--duration-slow) var(--ease-out);
+}
+
+.pm-view-enter {
+  transform: translateX(30%);
+  opacity: 0;
+}
+
+.pm-view-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.pm-view-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.pm-view-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* ── Message enter animation ── */
+@keyframes pm-message-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pm-message-enter {
+  animation: pm-message-enter var(--duration-normal) var(--ease-out) both;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .pm-view {
+    transition: none;
+  }
+}
+
+/* ── Scrollbar styling (side panel) ── */
+.pm-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pm-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pm-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-pm-muted-subtle);
+  border-radius: var(--radius-full);
+}
+
+.pm-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pm-muted);
+}
+
+/* ── Focus ring utility ── */
+.pm-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-pm-bg), 0 0 0 4px var(--color-pm-primary);
+}
+
+/* ── Markdown prose base (assistant messages) ── */
+.pm-prose {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-pm-assistant-bubble-text);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.pm-prose > *:first-child { margin-top: 0; }
+.pm-prose > *:last-child { margin-bottom: 0; }
+.pm-prose p { margin: 0.5rem 0; }
+.pm-prose ul, .pm-prose ol { margin: 0.5rem 0; padding-left: 1.25rem; }
+.pm-prose li { margin: 0.25rem 0; }
+.pm-prose a { color: var(--color-pm-primary); text-decoration: underline; }
+.pm-prose code { font-family: var(--font-mono); }
+.pm-prose pre { margin: 0.5rem 0; overflow-x: auto; }
+.pm-prose blockquote { margin: 0.5rem 0; padding-left: 0.75rem; border-left: 2px solid var(--color-pm-border); }
+.pm-prose table { margin: 0.5rem 0; border-collapse: collapse; }
+.pm-prose th, .pm-prose td { border: 1px solid var(--color-pm-border); padding: 0.25rem 0.5rem; }
