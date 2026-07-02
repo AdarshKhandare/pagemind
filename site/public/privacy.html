@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — PageMind</title>
+  <meta name="description" content="PageMind Chrome Extension Privacy Policy" />
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #111114;
+      --text: #e4e4e7;
+      --muted: #71717a;
+      --primary: #5b8def;
+      --accent: #a78bfa;
+      --border: rgba(255, 255, 255, 0.07);
+      --success: #34d399;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 0 1.5rem 4rem;
+    }
+    .container { max-width: 760px; margin: 0 auto; padding-top: 3rem; }
+    .logo-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem; }
+    .logo-row img { width: 36px; height: 36px; border-radius: 8px; }
+    .logo-row span { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+    h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+    .updated { color: var(--muted); font-size: 0.875rem; margin-bottom: 2.5rem; }
+    h2 { font-size: 1.15rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+    p { color: var(--text); margin-bottom: 1rem; }
+    ul { margin-bottom: 1rem; padding-left: 1.25rem; }
+    li { margin-bottom: 0.5rem; color: var(--text); }
+    .muted { color: var(--muted); }
+    .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background: rgba(52, 211, 153, 0.12); color: var(--success); border: 1px solid rgba(52, 211, 153, 0.2); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .card p:last-child { margin-bottom: 0; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.875rem; }
+    code { font-family: ui-monospace, "Cascadia Code", monospace; background: rgba(255,255,255,0.06); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-row">
+      <img src="/icon-128.png" alt="PageMind logo" />
+      <span>PageMind</span>
+    </div>
+
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: July 2, 2026</p>
+
+    <p>PageMind is a Chrome extension that adds an AI assistant to any webpage. This policy explains what data the extension accesses, how it is stored, and where it is sent.</p>
+
+    <div class="card">
+      <p><strong class="tag">BYOK</strong> &nbsp; PageMind uses a <strong>Bring Your Own Key</strong> model. You provide your own AI API key (OpenAI or DeepSeek). PageMind never includes hardcoded keys and never sends your data to our servers.</p>
+    </div>
+
+    <h2>1. What data the extension accesses</h2>
+    <ul>
+      <li><strong>Page content</strong> — When you trigger an action (Summarize, Explain, Rewrite, Translate, Extract, or Chat), PageMind reads the current page's text content using Mozilla Readability. This text is sent to your chosen AI provider to generate a response. Page content is accessed only when you explicitly trigger an action — never automatically or in the background.</li>
+      <li><strong>Selected text</strong> — When you use a context menu action on selected text, that selection is sent to your AI provider.</li>
+      <li><strong>API keys</strong> — The OpenAI or DeepSeek API key you enter in the settings page is stored locally to authenticate API calls.</li>
+      <li><strong>Conversation history</strong> — Your chat messages (questions and AI responses) are stored locally so you can review past conversations.</li>
+      <li><strong>Settings</strong> — Your selected provider, model, and preferences are stored locally.</li>
+    </ul>
+
+    <h2>2. How data is stored</h2>
+    <ul>
+      <li>All data is stored in <code>chrome.storage.local</code> — on your device, in your browser profile.</li>
+      <li>Data is <strong>never</strong> synced to the cloud via <code>chrome.storage.sync</code>.</li>
+      <li>Data is <strong>never</strong> written to any external database or server operated by PageMind.</li>
+      <li>API keys are kept in the extension's service worker and used only for authenticated <code>fetch()</code> calls to your chosen provider. They are never exposed to content scripts or web pages.</li>
+    </ul>
+
+    <h2>3. Where data is sent</h2>
+    <ul>
+      <li>Page content and your prompts are sent <strong>only</strong> to the AI provider you configure (OpenAI at <code>api.openai.com</code> or DeepSeek at <code>api.deepseek.com</code>).</li>
+      <li>Requests are made from the extension's service worker using your API key for authentication.</li>
+      <li>No data is sent to any other server. There is no analytics service, no telemetry, no error reporting, and no third-party tracking.</li>
+    </ul>
+
+    <h2>4. What we do not collect</h2>
+    <ul>
+      <li>No analytics or usage metrics.</li>
+      <li>No crash reports or error reports.</li>
+      <li>No browsing history. PageMind does not track which pages you visit.</li>
+      <li>No personal information. PageMind does not ask for or store your name, email, or identity.</li>
+      <li>No advertising or marketing identifiers.</li>
+    </ul>
+
+    <h2>5. How to delete your data</h2>
+    <ul>
+      <li>Remove individual conversations using the session list in the side panel.</li>
+      <li>Clear all data by removing the extension (Chrome will delete all <code>chrome.storage.local</code> data).</li>
+      <li>Or go to <code>chrome://extensions</code> &rarr; PageMind &rarr; "Details" &rarr; "Service worker" &rarr; use DevTools to clear storage.</li>
+    </ul>
+
+    <h2>6. Third-party services</h2>
+    <p>Your use of OpenAI and DeepSeek APIs is governed by their respective privacy policies:</p>
+    <ul>
+      <li>OpenAI: <a href="https://openai.com/privacy" target="_blank" rel="noopener">openai.com/privacy</a></li>
+      <li>DeepSeek: <a href="https://www.deepseek.com/en/privacy-policy" target="_blank" rel="noopener">deepseek.com/privacy</a></li>
+    </ul>
+    <p>PageMind does not control how these providers handle your data. Review their policies before use.</p>
+
+    <h2>7. Permissions</h2>
+    <ul>
+      <li><strong>activeTab</strong> — Access the current tab's content when you trigger an action.</li>
+      <li><strong>sidePanel</strong> — Display the chat interface in Chrome's side panel.</li>
+      <li><strong>contextMenus</strong> — Add right-click menu items for AI actions.</li>
+      <li><strong>storage</strong> — Store your API keys, settings, and conversation history locally.</li>
+      <li><strong>commands</strong> — Keyboard shortcuts (Ctrl+Shift+S, Ctrl+Shift+E).</li>
+      <li><strong>alarms</strong> — Keep the service worker alive during long AI streaming responses.</li>
+      <li><strong>scripting</strong> — Fallback page-content extraction when the content script isn't injected.</li>
+      <li><strong>host_permissions</strong> (api.openai.com, api.deepseek.com) — Make authenticated API calls to your chosen AI provider.</li>
+    </ul>
+
+    <h2>8. Children's privacy</h2>
+    <p>PageMind is not directed at children under 13 and does not knowingly collect data from children.</p>
+
+    <h2>9. Changes to this policy</h2>
+    <p>If this policy changes, the updated version will be posted on this page with a new "Last updated" date.</p>
+
+    <h2>10. Contact</h2>
+    <p>Questions about this privacy policy? Contact: <a href="mailto:adarsh@adarshweb.in">adarsh@adarshweb.in</a></p>
+
+    <div class="footer">
+      <p>PageMind is open source: <a href="https://github.com/AdarshKhandare/pagemind" target="_blank" rel="noopener">github.com/AdarshKhandare/pagemind</a></p>
+      <p>&copy; 2026 Adarsh Khandare. PageMind is licensed under the MIT License.</p>
+    </div>
+  </div>
+</body>
+</html>
