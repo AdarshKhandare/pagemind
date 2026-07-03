@@ -1,43 +1,35 @@
 # PageMind
 
-AI sidekick for any webpage — summarize, explain, rewrite, translate, extract, and chat with the page's content.
+AI sidekick for any webpage — summarize, explain, rewrite, translate, extract structured data, and chat with the page's content using your own AI API keys.
 
-PageMind is a Manifest V3 Chrome extension that adds a floating launcher and a native side panel to every page. It extracts readable article content with Mozilla Readability and streams responses from your own AI provider keys.
+PageMind is a Manifest V3 Chrome extension that adds a floating launcher and a native side panel to every page. It extracts readable article content with Mozilla Readability and streams responses from OpenAI or DeepSeek via a single OpenAI-compatible interface.
+
+**Status:** Submitted to the Chrome Web Store (currently in review). Landing page live at [pagemind.adarshweb.in](https://pagemind.adarshweb.in).
 
 ## Features
 
-### Phase 1 (MVP) — now
-
-- **Summarize page** — one click extracts the article and streams a concise summary via Groq.
-- **Chat with the page** — ask questions about the current page content in the side panel.
-- **Shadow DOM floating launcher** — a polished, isolated button injected on every page.
-- **Streaming responses** — assistant replies render token-by-token in the side panel.
-- **BYOK key management** — add your Groq API key in the settings page; keys stay local.
-- **Model picker** — switch between Groq models (`llama-3.3-70b-versatile`, `llama-3.1-8b-instant`).
-- **Keyboard shortcuts** — `Ctrl+Shift+S` summarizes the current page.
-
-### Phase 2 — planned
-
-- OpenAI and Google Gemini providers.
-- Context-menu actions for selected text (explain, rewrite, translate, extract).
-- Full selection handling for `Ctrl+Shift+E`.
-- Rewrite, Translate, and Extract data actions in the side panel.
-- Conversation history sync and richer chat management.
-
-### Phase 3 — planned
-
-- Chrome Web Store listing, privacy policy, and submission.
-- Landing page at `pagemind.adarshweb.in`.
-- Polish, custom icons, and onboarding.
+- **Summarize page** — one click extracts the article (Mozilla Readability) and streams a concise summary.
+- **Explain selection** — select any text, get a clear explanation.
+- **Rewrite** — improve clarity, tone, or length of selected text.
+- **Translate** — translate page or selection to a chosen language with an inline language picker.
+- **Extract data** — pull structured JSON data from page content.
+- **Chat with page** — ask questions grounded in the current page's content.
+- **Streaming responses** — answers render token-by-token via SSE.
+- **Markdown rendering** — assistant responses render as safe markdown (react-markdown + remark-gfm, no `dangerouslySetInnerHTML`).
+- **Multi-session chat** — separate conversations per page or topic, with a session picker in the header.
+- **Model picker** — switch provider and model from the side panel or settings.
+- **Shadow DOM floating launcher** — injected on every page via WXT `createShadowRootUi` with `cssInjectionMode: 'ui'` for style isolation from host pages.
+- **Right-click context menu** — Summarize, Explain, Rewrite, Translate, Extract on selected text; opens the side panel with the result.
+- **Keyboard shortcuts** — `Ctrl+Shift+S` (Cmd+Shift+S on Mac) summarizes the current page; `Ctrl+Shift+E` (Cmd+Shift+E on Mac) explains the selection.
 
 ## Architecture
 
 ```
 [Content Script]  --extracts DOM via Readability-->  [Service Worker]  --fetch()-->  [AI API]
    (ISOLATED world)                                          ^
-        |                                                     |
-        |--Shadow DOM floating button--sendMessage---------->|
-        |                                                     |
+       |                                                     |
+       |--Shadow DOM floating button--sendMessage---------->|
+       |                                                     |
 [Side Panel (React chat UI)]  <--streaming response--------  [Service Worker]
 [Context Menu]  --onClicked-->  [Service Worker]  --> opens side panel + triggers action
 [Keyboard Commands]  --onCommand-->  [Service Worker]  --> triggers action
@@ -45,24 +37,39 @@ PageMind is a Manifest V3 Chrome extension that adds a floating launcher and a n
 
 Critical rules:
 
-- AI API calls happen **only** in the service worker; content scripts never call AI providers directly.
+- AI API calls happen **only** in the service worker; content scripts never call AI providers directly (CORS).
 - API keys live in `chrome.storage.local` and are only used inside `fetch()` calls to the chosen provider.
 - Shadow DOM UI uses WXT's `createShadowRootUi` with `cssInjectionMode: 'ui'` to isolate styles from host pages.
+- Service worker keepalive via `chrome.alarms` during long streams (service workers terminate after ~30s idle).
+- Side panel opens via `chrome.sidePanel.open()` which requires a user gesture (floating button click, context menu, or keyboard shortcut all qualify).
 
 ## Tech stack
 
 - [WXT](https://wxt.dev/) v0.20.x — Manifest V3 extension framework
 - React 18 + TypeScript (strict)
 - Tailwind CSS v4
-- [Mozilla Readability](https://github.com/mozilla/readability) — article extraction
-- [Lucide React](https://lucide.dev/) — icons
-- Groq (OpenAI-compatible) API for Phase 1
+- [@mozilla/readability](https://github.com/mozilla/readability) — article extraction
+- [react-markdown](https://github.com/remarkjs/react-markdown) + remark-gfm — safe markdown rendering
+- [lucide-react](https://lucide.dev/) — icons
+- OpenAI-compatible API interface (OpenAI + DeepSeek)
+- `chrome.storage.local` — provider configs, settings, conversation history
+- No backend in v1 (BYOK; calls go direct from service worker to AI providers)
+
+### AI providers
+
+PageMind uses a **Bring Your Own Key (BYOK)** model. You supply your own API keys and base URLs in settings. Both supported providers use the same OpenAI-compatible `/v1/chat/completions` endpoint with Bearer auth and SSE streaming, handled by a single `OpenAICompatibleProvider` class.
+
+| Provider | Models |
+|----------|--------|
+| OpenAI | gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.4-nano |
+| DeepSeek | deepseek-v4-flash, deepseek-v4-pro |
+
+API keys are stored in `chrome.storage.local` only (never synced, never hardcoded). They are sent only to the user's chosen provider.
 
 ## Project structure
 
 ```
 pagemind/
-├── AGENTS.md                 # locked architecture and conventions
 ├── package.json
 ├── wxt.config.ts             # manifest, permissions, commands
 ├── tsconfig.json
@@ -73,7 +80,7 @@ pagemind/
 │   │   ├── index.html
 │   │   ├── main.tsx
 │   │   ├── App.tsx
-│   │   └── components/       # chat UI pieces
+│   │   └── components/       # ActionBar, ChatBubble, ModelPicker, SessionList, etc.
 │   └── options/
 │       ├── index.html
 │       ├── main.tsx
@@ -81,14 +88,17 @@ pagemind/
 ├── lib/
 │   ├── ai/
 │   │   ├── providers.ts      # unified provider interface
-│   │   └── groq.ts           # Groq SSE client
+│   │   └── openai-compatible.ts  # single OpenAI-compatible client (OpenAI + DeepSeek)
+│   ├── actions.ts            # shared prompt builders
 │   ├── storage.ts            # chrome.storage.local wrapper
 │   ├── messaging.ts          # typed message bus
 │   └── readability.ts        # page content extraction helper
 ├── assets/
-│   ├── global.css            # Tailwind entry + PageMind theme tokens
-│   └── react.svg
-└── public/icon/              # 16/32/48/96/128 extension icons
+│   └── global.css            # Tailwind entry + PageMind theme tokens
+├── public/
+│   ├── icon/                 # 16/32/48/96/128 extension icons
+│   └── logo.png
+└── site/                     # React + Vite + Tailwind + Motion landing page (deployed to Vercel)
 ```
 
 ## Getting started
@@ -99,11 +109,14 @@ pagemind/
 npm install
 ```
 
-### 2. Get a Groq API key
+### 2. Get an API key
 
-1. Visit [console.groq.com/keys](https://console.groq.com/keys).
-2. Create a free API key.
-3. Open PageMind settings after installation and paste the key.
+PageMind requires an API key from one of the supported providers:
+
+- **OpenAI** — [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+- **DeepSeek** — [platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys)
+
+Open PageMind settings after loading the extension and paste the key.
 
 ### 3. Build the extension
 
@@ -124,6 +137,8 @@ npm run build
 2. Click the floating **PageMind** button in the bottom-right corner.
 3. Click **Summarize page** in the side panel, or type a question and press Enter.
 
+Or install from the Chrome Web Store once published (currently in review): [pagemind.adarshweb.in](https://pagemind.adarshweb.in).
+
 ## Development
 
 ```bash
@@ -142,11 +157,16 @@ npm run zip
 
 ## Privacy
 
-- **BYOK** — Bring Your Own Key. PageMind never includes hardcoded API keys.
-- **Local storage** — API keys and conversation history are stored in `chrome.storage.local` only.
-- **No telemetry** — PageMind does not track usage, collect page content, or send data anywhere except to your chosen AI provider when you explicitly run an action.
-- Page content and selected text are sent to the AI provider you configure.
+- **BYOK** — Bring Your Own Key. PageMind never includes or transmits hardcoded API keys.
+- **Local storage** — API keys and conversation history are stored in `chrome.storage.local` only. They never leave your browser.
+- **No telemetry** — PageMind does not track usage, collect analytics, or send data anywhere except to your chosen AI provider (OpenAI or DeepSeek) when you explicitly run an action.
+- Page content and selected text are sent only to the AI provider you configure, and only when you trigger an action (summarize, explain, rewrite, translate, extract, or chat).
+- Privacy policy: [pagemind.adarshweb.in/privacy](https://pagemind.adarshweb.in/privacy).
 
 ## License
 
 MIT
+
+## Author
+
+Adarsh Khandare — [github.com/AdarshKhandare](https://github.com/AdarshKhandare)
