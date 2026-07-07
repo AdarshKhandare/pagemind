@@ -4,7 +4,7 @@ AI sidekick for any webpage — summarize, explain, rewrite, translate, extract 
 
 PageMind is a Manifest V3 Chrome extension that adds a floating launcher and a native side panel to every page. It extracts readable article content with Mozilla Readability and streams responses from OpenAI or DeepSeek via a single OpenAI-compatible interface.
 
-**Status:** Submitted to the Chrome Web Store (currently in review). Landing page live at [pagemind.adarshweb.in](https://pagemind.adarshweb.in).
+**Status:** Published on the [Chrome Web Store](https://chromewebstore.google.com/detail/PageMind/obpahajeeopognhbpomcfgplemegamme). Landing page live at [pagemind.adarshweb.in](https://pagemind.adarshweb.in).
 
 ## Features
 
@@ -59,10 +59,10 @@ Critical rules:
 
 PageMind uses a **Bring Your Own Key (BYOK)** model. You supply your own API keys and base URLs in settings. Both supported providers use the same OpenAI-compatible `/v1/chat/completions` endpoint with Bearer auth and SSE streaming, handled by a single `OpenAICompatibleProvider` class.
 
-| Provider | Models |
-|----------|--------|
-| OpenAI | gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.4-nano |
-| DeepSeek | deepseek-v4-flash, deepseek-v4-pro |
+| Provider | Models                                       |
+| -------- | -------------------------------------------- |
+| OpenAI   | gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.4-nano |
+| DeepSeek | deepseek-v4-flash, deepseek-v4-pro           |
 
 API keys are stored in `chrome.storage.local` only (never synced, never hardcoded). They are sent only to the user's chosen provider.
 
@@ -137,7 +137,7 @@ npm run build
 2. Click the floating **PageMind** button in the bottom-right corner.
 3. Click **Summarize page** in the side panel, or type a question and press Enter.
 
-Or install from the Chrome Web Store once published (currently in review): [pagemind.adarshweb.in](https://pagemind.adarshweb.in).
+Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/PageMind/obpahajeeopognhbpomcfgplemegamme).
 
 ## Development
 
