@@ -9,8 +9,8 @@ const NAV_LINKS: ReadonlyArray<{ label: string; href: string }> = [
   { label: "Privacy", href: "#privacy" },
 ];
 
-// TODO: Replace with the real Chrome Web Store URL once the listing is live.
-const CHROME_STORE_URL = "#";
+const CHROME_STORE_URL =
+  "https://chromewebstore.google.com/detail/PageMind/obpahajeeopognhbpomcfgplemegamme";
 
 export function Nav() {
   const scrollProgress = useScrollProgress();
@@ -47,27 +47,23 @@ export function Nav() {
         style={{
           // backdrop-filter saturate via inline style (Tailwind v4 utility alternative)
           WebkitBackdropFilter: "blur(16px) saturate(1.4)",
-        }}
-      >
+        }}>
         <div
           className={`container-pm flex h-14 items-center justify-between transition-[background-color,border-color] duration-200 ${
             isScrolled ? "nav-bg--scrolled" : ""
-          }`}
-        >
+          }`}>
           {/* Left: logo + wordmark */}
           <a
             href="#hero"
             className="flex items-center gap-2.5 pm-focus-ring rounded-md"
-            aria-label="PageMind home"
-          >
+            aria-label="PageMind home">
             <span
               className="grid h-8 w-8 place-items-center overflow-hidden rounded-md"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(91,141,239,0.18), rgba(167,139,250,0.18))",
                 border: "1px solid var(--color-pm-border)",
-              }}
-            >
+              }}>
               <img
                 src="/logo.png"
                 alt=""
@@ -78,8 +74,7 @@ export function Nav() {
             </span>
             <span
               className="text-body font-semibold tracking-tight"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
+              style={{ fontFamily: "var(--font-display)" }}>
               PageMind
             </span>
           </a>
@@ -90,8 +85,7 @@ export function Nav() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="pm-focus-ring rounded-md px-3 py-2 text-small text-[var(--color-pm-muted)] transition-colors hover:text-[var(--color-pm-text)]"
-                >
+                  className="pm-focus-ring rounded-md px-3 py-2 text-small text-[var(--color-pm-muted)] transition-colors hover:text-[var(--color-pm-text)]">
                   {link.label}
                 </a>
               </li>
@@ -105,15 +99,13 @@ export function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               className="pm-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-md text-[var(--color-pm-muted)] transition-colors hover:text-[var(--color-pm-text)]"
-              aria-label="View PageMind on GitHub"
-            >
+              aria-label="View PageMind on GitHub">
               <Github className="h-4.5 w-4.5" aria-hidden="true" />
             </a>
             <a
               href={CHROME_STORE_URL}
               className="btn btn--primary btn--sm"
-              aria-label="Add PageMind to Chrome"
-            >
+              aria-label="Add PageMind to Chrome">
               Add to Chrome
             </a>
           </div>
@@ -123,8 +115,7 @@ export function Nav() {
             <a
               href={CHROME_STORE_URL}
               className="btn btn--primary btn--sm"
-              aria-label="Add PageMind to Chrome"
-            >
+              aria-label="Add PageMind to Chrome">
               Add
             </a>
             <button
@@ -137,8 +128,7 @@ export function Nav() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-            >
+              aria-controls="mobile-menu">
               {menuOpen ? (
                 <X className="h-5 w-5" aria-hidden="true" />
               ) : (
@@ -166,20 +156,17 @@ export function Nav() {
             onClick={(e) => {
               // Close if user clicks the scrim, not the panel.
               if (e.target === e.currentTarget) closeMenu();
-            }}
-          >
+            }}>
             <div
               className="absolute right-0 top-0 h-full w-[78%] max-w-sm p-6"
               style={{
                 background: "var(--color-pm-surface)",
                 borderLeft: "1px solid var(--color-pm-border)",
-              }}
-            >
+              }}>
               <div className="mb-8 flex items-center justify-between">
                 <span
                   className="font-semibold tracking-tight"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
+                  style={{ fontFamily: "var(--font-display)" }}>
                   Menu
                 </span>
                 <button
@@ -190,8 +177,7 @@ export function Nav() {
                     background: "var(--color-pm-bg)",
                     border: "1px solid var(--color-pm-border)",
                   }}
-                  aria-label="Close menu"
-                >
+                  aria-label="Close menu">
                   <X className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
@@ -201,8 +187,7 @@ export function Nav() {
                     <a
                       href={link.href}
                       onClick={closeMenu}
-                      className="pm-focus-ring block rounded-md px-3 py-3 text-body font-medium text-[var(--color-pm-text)] transition-colors hover:bg-[var(--color-pm-surface-hover)]"
-                    >
+                      className="pm-focus-ring block rounded-md px-3 py-3 text-body font-medium text-[var(--color-pm-text)] transition-colors hover:bg-[var(--color-pm-surface-hover)]">
                       {link.label}
                     </a>
                   </li>
@@ -213,8 +198,7 @@ export function Nav() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={closeMenu}
-                    className="pm-focus-ring flex items-center gap-2 rounded-md px-3 py-3 text-body font-medium text-[var(--color-pm-text)] transition-colors hover:bg-[var(--color-pm-surface-hover)]"
-                  >
+                    className="pm-focus-ring flex items-center gap-2 rounded-md px-3 py-3 text-body font-medium text-[var(--color-pm-text)] transition-colors hover:bg-[var(--color-pm-surface-hover)]">
                     <Github className="h-4 w-4" aria-hidden="true" /> GitHub
                   </a>
                 </li>
@@ -223,8 +207,7 @@ export function Nav() {
                 <a
                   href={CHROME_STORE_URL}
                   onClick={closeMenu}
-                  className="btn btn--primary w-full"
-                >
+                  className="btn btn--primary w-full">
                   Add to Chrome
                 </a>
               </div>

@@ -1,11 +1,9 @@
-import {
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Sparkles, Bot, Send, RotateCw } from "lucide-react";
 import { EASE_OUT, stagger, fadeUpItem } from "../lib/motion";
 
-const CHROME_STORE_URL = "#"; // TODO: real store URL
+const CHROME_STORE_URL =
+  "https://chromewebstore.google.com/detail/PageMind/obpahajeeopognhbpomcfgplemegamme";
 
 /**
  * CSS-driven aurora background. Three soft radial-gradient blobs drift
@@ -38,13 +36,11 @@ function ProductMock() {
         boxShadow: "var(--shadow-lg)",
         transform: "perspective(1400px) rotateY(-2deg) rotateX(1deg)",
         overflow: "hidden",
-      }}
-    >
+      }}>
       {/* Mock chrome — title bar */}
       <div
         className="flex items-center gap-2 px-3.5 py-2.5"
-        style={{ borderBottom: "1px solid var(--color-pm-border)" }}
-      >
+        style={{ borderBottom: "1px solid var(--color-pm-border)" }}>
         <span
           className="inline-block h-2.5 w-2.5 rounded-full"
           style={{ background: "rgba(248,113,113,0.6)" }}
@@ -59,8 +55,7 @@ function ProductMock() {
         />
         <span
           className="ml-2 text-mono"
-          style={{ color: "var(--color-pm-muted-subtle)" }}
-        >
+          style={{ color: "var(--color-pm-muted-subtle)" }}>
           pagemind · side panel
         </span>
       </div>
@@ -72,16 +67,14 @@ function ProductMock() {
           style={{
             background: "var(--color-pm-bg)",
             border: "1px solid var(--color-pm-border)",
-          }}
-        >
+          }}>
           <span
             className="inline-block h-1.5 w-1.5 rounded-full"
             style={{ background: "var(--color-pm-primary)" }}
           />
           <span
             className="truncate text-mono"
-            style={{ color: "var(--color-pm-muted)" }}
-          >
+            style={{ color: "var(--color-pm-muted)" }}>
             arxiv.org/abs/2503.18941
           </span>
         </div>
@@ -105,8 +98,7 @@ function ProductMock() {
               border: "1px solid var(--color-pm-border)",
             }}
             tabIndex={-1}
-            aria-hidden="true"
-          >
+            aria-hidden="true">
             <Icon className="h-3.5 w-3.5" aria-hidden="true" />
             {label}
           </button>
@@ -119,8 +111,8 @@ function ProductMock() {
           Summarize this paper in 5 bullets.
         </div>
         <div className="mock-bubble mock-bubble--assistant">
-          <strong>TL;DR</strong> — the authors propose a sparse mixture-of-experts
-          routing scheme that halves inference cost with{" "}
+          <strong>TL;DR</strong> — the authors propose a sparse
+          mixture-of-experts routing scheme that halves inference cost with{" "}
           <strong>&lt;1% quality loss</strong>
           <span className="mock-cursor" aria-hidden="true" />
         </div>
@@ -129,19 +121,19 @@ function ProductMock() {
       {/* Input */}
       <div
         className="px-4 pb-4"
-        style={{ borderTop: "1px solid var(--color-pm-border)", paddingTop: 12 }}
-      >
+        style={{
+          borderTop: "1px solid var(--color-pm-border)",
+          paddingTop: 12,
+        }}>
         <div
           className="flex items-center gap-2 rounded-md px-3 py-2"
           style={{
             background: "var(--color-pm-bg)",
             border: "1px solid var(--color-pm-border)",
-          }}
-        >
+          }}>
           <span
             className="text-small"
-            style={{ color: "var(--color-pm-muted-subtle)" }}
-          >
+            style={{ color: "var(--color-pm-muted-subtle)" }}>
             Ask anything about this page…
           </span>
         </div>
@@ -160,8 +152,7 @@ export function Hero() {
     <section
       id="hero"
       className="relative isolate min-h-[calc(100dvh-56px)] overflow-hidden pt-14"
-      aria-labelledby="hero-headline"
-    >
+      aria-labelledby="hero-headline">
       <AuroraBackground />
 
       <div className="container-pm relative z-10 flex flex-col items-center gap-12 pb-16 pt-12 md:flex-row md:items-center md:gap-10 md:pt-20 lg:pt-24">
@@ -170,8 +161,7 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           variants={stagger(0.05, 0.08)}
-          className="flex-1 text-center md:text-left"
-        >
+          className="flex-1 text-center md:text-left">
           {/* Eyebrow */}
           <motion.div
             variants={fadeUpItem}
@@ -179,8 +169,7 @@ export function Hero() {
             style={{
               background: "var(--color-pm-primary-subtle)",
               border: "1px solid var(--color-pm-border)",
-            }}
-          >
+            }}>
             <Sparkles
               className="h-3.5 w-3.5"
               aria-hidden="true"
@@ -188,8 +177,7 @@ export function Hero() {
             />
             <span
               className="text-mono"
-              style={{ color: "var(--color-pm-text)" }}
-            >
+              style={{ color: "var(--color-pm-text)" }}>
               v1.0 · Chrome MV3 · open source
             </span>
           </motion.div>
@@ -197,15 +185,15 @@ export function Hero() {
           {/* Headline */}
           <h1
             id="hero-headline"
-            className="text-hero text-[var(--color-pm-text)]"
-          >
+            className="text-hero text-[var(--color-pm-text)]">
             {headlineWords.map((word, i) => (
               <motion.span
                 key={`${word}-${i}`}
                 variants={fadeUpItem}
                 className="inline-block"
-                style={{ marginRight: i < headlineWords.length - 1 ? "0.28em" : 0 }}
-              >
+                style={{
+                  marginRight: i < headlineWords.length - 1 ? "0.28em" : 0,
+                }}>
                 {word === "AI" ? (
                   <span className="gradient-text">AI</span>
                 ) : (
@@ -219,10 +207,9 @@ export function Hero() {
           <motion.p
             variants={fadeUpItem}
             className="text-body-lg mt-5 max-w-xl text-[var(--color-pm-muted)] md:mt-6"
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            Summarize, explain, rewrite, translate, extract data, and chat — right
-            from your browser side panel.{" "}
+            style={{ marginLeft: "auto", marginRight: "auto" }}>
+            Summarize, explain, rewrite, translate, extract data, and chat —
+            right from your browser side panel.{" "}
             <span className="text-[var(--color-pm-text)]">
               Bring your own API key.
             </span>{" "}
@@ -232,19 +219,16 @@ export function Hero() {
           {/* CTAs */}
           <motion.div
             variants={fadeUpItem}
-            className="mt-8 flex flex-col items-center gap-3 sm:flex-row md:items-start"
-          >
+            className="mt-8 flex flex-col items-center gap-3 sm:flex-row md:items-start">
             <a
               href={CHROME_STORE_URL}
-              className="btn btn--primary btn--large w-full sm:w-auto"
-            >
+              className="btn btn--primary btn--large w-full sm:w-auto">
               Add to Chrome
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
             <a
               href="#how-it-works"
-              className="btn btn--ghost btn--large w-full sm:w-auto"
-            >
+              className="btn btn--ghost btn--large w-full sm:w-auto">
               See how it works
             </a>
           </motion.div>
@@ -252,19 +236,21 @@ export function Hero() {
           {/* Trust line */}
           <motion.p
             variants={fadeUpItem}
-            className="text-small mt-5 text-[var(--color-pm-muted-subtle)]"
-          >
+            className="text-small mt-5 text-[var(--color-pm-muted-subtle)]">
             Free, no account required. Works with OpenAI &amp; DeepSeek.
           </motion.p>
         </motion.div>
 
         {/* Right: product mock */}
         <motion.div
-          initial={shouldReduce ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.98 }}
-          animate={shouldReduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+          initial={
+            shouldReduce ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.98 }
+          }
+          animate={
+            shouldReduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }
+          }
           transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.4 }}
-          className="flex-1 w-full max-w-md md:max-w-none"
-        >
+          className="flex-1 w-full max-w-md md:max-w-none">
           <ProductMock />
         </motion.div>
       </div>
